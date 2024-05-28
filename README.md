@@ -1,4 +1,4 @@
-# FMOT_matlab
+# FMOT（Field and Matrix Operator Tool）
 FMOT的matlab基础开发版本，目前主要功能是simple和piso算法的实现。
 
 方程构建和组装的风格是参考OpenFOAM的方式，希望能对OF的初学者有一定的帮助。
