@@ -12,3 +12,4 @@ FMOT的matlab基础开发版本，目前主要功能是simple和piso算法的实
     SIMPLE的残差输出colorbar存在问题；
     PISO的残差类的实现是不完整的，请不要使用；
 
+有问题可以联系：fmot_2024@163.com
