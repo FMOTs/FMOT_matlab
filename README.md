@@ -1,6 +1,8 @@
 # FMOT（Field and Matrix Operator Tool）
 FMOT的matlab基础开发版本，目前主要功能是simple和piso算法的实现。
 
+可以新建立main.m把test中的.mlx内容复制到新的main.m中，调试更方便。
+
 方程构建和组装的风格是参考OpenFOAM的方式，希望能对OF的初学者有一定的帮助。
 
 算子离散的实现是采用全向量化的方式进行组装，需要一定的基础来理解。
