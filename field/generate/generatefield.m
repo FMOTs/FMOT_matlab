@@ -1,17 +1,17 @@
 function field = generatefield(mesh,fieldDimension,fieldType)
-%Éú³ÉÎïÀí³¡Êı¾İ½á¹¹Ìå
-%¼ò½é£º
-%ÊäÈë²ÎÊı
-%   mesh - Íø¸ñÊı¾İ½á¹¹Ìå
-%   fieldDimension - ÎïÀí³¡Î¬¶È£¬°üº¬vol¡¢faceºÍpointÈıÖÖ£¬
-%   fieldType -  ÎïÀí³¡ÀàĞÍ£¬°üº¬scalar¡¢vectorºÍtensorÈıÖÖ£¬
-%·µ»Ø²ÎÊı
-%   field - ÎïÀí³¡Êı¾İ½á¹¹Ìå
-%          °üº¬±äÁ¿£º
-%               - field.fields(ÎïÀí³¡)
-%               - field.type(ÎïÀí³¡ÀàĞÍ)
+%ç”Ÿæˆç‰©ç†åœºæ•°æ®ç»“æ„ä½“
+%ç®€ä»‹ï¼š
+%è¾“å…¥å‚æ•°
+%   mesh - ç½‘æ ¼æ•°æ®ç»“æ„ä½“
+%   fieldDimension - ç‰©ç†åœºç»´åº¦ï¼ŒåŒ…å«volã€faceå’Œpointä¸‰ç§ï¼Œ
+%   fieldType -  ç‰©ç†åœºç±»å‹ï¼ŒåŒ…å«scalarã€vectorå’Œtensorä¸‰ç§ï¼Œ
+%è¿”å›å‚æ•°
+%   field - ç‰©ç†åœºæ•°æ®ç»“æ„ä½“
+%          åŒ…å«å˜é‡ï¼š
+%               - field.fields(ç‰©ç†åœº)
+%               - field.type(ç‰©ç†åœºç±»å‹)
 global Nx Ny;
-%ÏÈÈ·¶¨³¡ÀàĞÍ
+%å…ˆç¡®å®šåœºç±»å‹
 switch fieldDimension
     case 1
         fdim = 'vol';
@@ -23,7 +23,7 @@ switch fieldDimension
         end
         
     otherwise
-        error('generatefield():fieldDimension´íÎó');
+        error('generatefield():fieldDimensioné”™è¯¯');
 end
 ftype = 'Scalar';
 if fieldType > 1
@@ -31,10 +31,10 @@ if fieldType > 1
         case 2
             ftype = 'Vector';
         otherwise
-        error('generatefield():fieldType´íÎó');
+        error('generatefield():fieldTypeé”™è¯¯');
     end
 end
-%¸ù¾İ×îÖÕĞÎ³ÉµÄ³¡ÀàĞÍ,¶ÔÓ¦Éú³É³¡Êı¾İ½á¹¹Ìå
+%æ ¹æ®æœ€ç»ˆå½¢æˆçš„åœºç±»å‹,å¯¹åº”ç”Ÿæˆåœºæ•°æ®ç»“æ„ä½“
 field.type = strcat(fdim,ftype,'Field');
 
 if strcmpi(field.type,'volScalarField')
@@ -44,17 +44,17 @@ elseif strcmpi(field.type,'volVectorField')
 elseif strcmpi(field.type,'confaceScalarField')
     field = confaceScalarField(field);
 elseif strcmpi(field.type,'unconfaceScalarField')
-    field = unconfaceVectorField(mesh,field);
+    field = unconfaceScalarField(mesh,field);
 elseif strcmpi(field.type,'confaceVectorField')
     field = confaceVectorField(field);
 elseif strcmpi(field.type,'unconfaceVectorField')
     field = unconfaceVectorField(mesh,field);
 else
-    error('generatefield():ÎïÀí³¡Éú³ÉÊ§°Ü');
+    error('generatefield():ç‰©ç†åœºç”Ÿæˆå¤±è´¥');
 end
 
-%¶ÔÓÚfaceVectorFieldÒª¶ş´ÎÖØĞÂÉú³ÉÎïÀí³¡£¬
-%ÒòÎª¶ÔÓÚ½á¹¹Íø¸ñÃ¿Ò»¸öÃæ£¬Ëû¶¼ÓĞ(x,y,z)Èı¸ö·½ÏòµÄ·ÖÁ¿
+%å¯¹äºfaceVectorFieldè¦äºŒæ¬¡é‡æ–°ç”Ÿæˆç‰©ç†åœºï¼Œ
+%å› ä¸ºå¯¹äºç»“æ„ç½‘æ ¼æ¯ä¸€ä¸ªé¢ï¼Œä»–éƒ½æœ‰(x,y,z)ä¸‰ä¸ªæ–¹å‘çš„åˆ†é‡
 function field = volScalarField(field)
     field.fields.x = zeros(Nx*Ny,1);
 end
@@ -66,21 +66,21 @@ function field = volVectorField(field)
 end
 
 function field = confaceScalarField(field)
-%constructµÄÃæÌØÊâ´¦Àí 
+%constructçš„é¢ç‰¹æ®Šå¤„ç† 
     field.fields.x = zeros(Ny,Nx+1);
     field.fields.y = zeros(Ny+1,Nx); 
 end
 
 function field = unconfaceScalarField(field)
-%constructµÄÃæÌØÊâ´¦Àí 
+%constructçš„é¢ç‰¹æ®Šå¤„ç† 
     field.fields.x = zeros(mesh.faces.number,1);
 end
 
 function field = confaceVectorField(field)
-%constructµÄÃæÌØÊâ´¦Àí 
-%xx´ú±íx·½ÏòµÄÍø¸ñÃæ´¢´æµÄËÙ¶Èu
-%xy´ú±íx·½ÏòµÄÍø¸ñÃæ´¢´æµÄËÙ¶Èv
-%ÒÔ´ËÀàÍÆ......
+%constructçš„é¢ç‰¹æ®Šå¤„ç† 
+%xxä»£è¡¨xæ–¹å‘çš„ç½‘æ ¼é¢å‚¨å­˜çš„é€Ÿåº¦u
+%xyä»£è¡¨xæ–¹å‘çš„ç½‘æ ¼é¢å‚¨å­˜çš„é€Ÿåº¦v
+%ä»¥æ­¤ç±»æ¨......
     cfields.xx = zeros(Ny,Nx+1);
     cfields.xy = zeros(Ny+1,Nx); 
     cfields.xz = []; 
